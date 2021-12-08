@@ -1,4 +1,5 @@
 .idea
-.classpath
-.class
+*.classpath
+*.class
 target
+*.properties
