@@ -1,16 +1,6 @@
 package org.learning.kafka;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-
 import io.github.redouane59.twitter.TwitterClient;
-import io.github.redouane59.twitter.dto.tweet.Tweet;
 import io.github.redouane59.twitter.dto.tweet.TweetList;
 import io.github.redouane59.twitter.dto.tweet.TweetV2;
 import io.github.redouane59.twitter.signature.TwitterCredentials;
@@ -18,43 +8,12 @@ import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
-import com.twitter.hbc.core.Client;
-import com.twitter.hbc.ClientBuilder;
-import com.twitter.hbc.core.Constants;
-import com.twitter.hbc.core.Hosts;
-import com.twitter.hbc.core.HttpHosts;
-import com.twitter.hbc.core.endpoint.StatusesFilterEndpoint;
-import com.twitter.hbc.core.processor.StringDelimitedProcessor;
-import com.twitter.hbc.httpclient.auth.Authentication;
-import com.twitter.hbc.httpclient.auth.OAuth1;
 import org.json.simple.JSONObject;
 import org.learning.kafka.util.PropertiesFileReader;
 
-public class TwitterProducer {
-    public static Client getHosebirdClient(String twitterPropertiesFile) {
-        BlockingQueue<String> msgQueue = new LinkedBlockingQueue<String>(100);
-        Hosts hosts = new HttpHosts(Constants.STREAM_HOST);
-        StatusesFilterEndpoint hosebirdEndPoint = new StatusesFilterEndpoint();
-        List<Long> followings = Arrays.asList(1234L,22132L);
-        List<String> terms = Arrays.asList("twitter", "api");
-        hosebirdEndPoint.trackTerms(terms);
-        hosebirdEndPoint.followings(followings);
-        Properties props = PropertiesFileReader.getProperties(twitterPropertiesFile);
-        final String apiKey = props.getProperty("api_key");
-        final String apiSecret = props.getProperty("api_secret");
-        final String token = props.getProperty("token");
-        final String secret = props.getProperty("secret");
-        Authentication auth = new OAuth1(apiKey,apiSecret,token,secret);
-        ClientBuilder builder = new ClientBuilder()
-                .name("kafka")
-                .hosts(hosts)
-                .authentication(auth)
-                .endpoint(hosebirdEndPoint)
-                .processor(new StringDelimitedProcessor(msgQueue));
-        Client client = builder.build();
-        return client;
-    }
+import java.util.Properties;
 
+public class TwitterProducer {
     public static TwitterClient getTwitterClient(String twitterPropertiesFile) {
         Properties props = PropertiesFileReader.getProperties(twitterPropertiesFile);
         final String apiKey = props.getProperty("api_key");
