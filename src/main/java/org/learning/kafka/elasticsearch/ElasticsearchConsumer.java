@@ -70,7 +70,6 @@ public class ElasticsearchConsumer {
 		while (true) {
 			ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
 			for (ConsumerRecord<String, String> record : records) {
-				System.out.println("hello");
 				IndexRequest indexRequest = new IndexRequest(index, type).source(record.value(), XContentType.JSON);
 				IndexResponse indexResponse = client.index(indexRequest, RequestOptions.DEFAULT);
 				System.out.println("id: " + indexResponse.getId());

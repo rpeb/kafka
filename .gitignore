@@ -3,5 +3,5 @@
 target
 .classpath
 .project
-#src/main/resources/twitter.properties
-#src/main/resources/elasticsearch.properties
+src/main/resources/twitter.properties
+src/main/resources/elasticsearch.properties

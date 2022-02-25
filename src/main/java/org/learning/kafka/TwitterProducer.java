@@ -18,12 +18,11 @@ public class TwitterProducer {
         Properties props = PropertiesFileReader.getProperties(twitterPropertiesFile);
         final String apiKey = props.getProperty("api_key");
         final String apiSecret = props.getProperty("api_secret");
-        final String token = props.getProperty("token");
-        final String secret = props.getProperty("secret");
-        System.out.println("apikey: " + apiKey + "apiSecret: " + apiSecret);
+        final String accessToken = props.getProperty("access_token");
+        final String accessTokenSecret = props.getProperty("access_token_secret");
         TwitterClient twitterClient = new TwitterClient(TwitterCredentials.builder()
-                .accessToken(token)
-                .accessTokenSecret(secret)
+                .accessToken(accessToken)
+                .accessTokenSecret(accessTokenSecret)
                 .apiKey(apiKey)
                 .apiSecretKey(apiSecret)
                 .build());
@@ -47,7 +46,6 @@ public class TwitterProducer {
         TweetList tweetList = twitterClient.searchTweets("from:naval");
         for (TweetV2.TweetData tweetData: tweetList.getData()) {
             JSONObject tweetBody = new JSONObject();
-//            tweetData.getId()
             tweetBody.put("id", tweetData.getId());
             tweetBody.put("author", tweetData.getAuthorId());
             tweetBody.put("text",tweetData.getText());
